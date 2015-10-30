@@ -1,0 +1,14 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+    config.vm.box = "hashicorp/precise64" # Allow NSF sync
+    config.vm.provision "docker"
+    config.vm.network "private_network", ip: "192.168.33.10" # Need for NSF
+    config.vm.synced_folder "../hello", "/src/hello", type: "nfs" # Between local and VM-host
+    config.vm.provision "shell", inline:
+        "ps aux | grep 'sshd:' | awk '{print $2}' | xargs kill"
+
+    # web port
+    config.vm.network :forwarded_port, host: 8080, guest: 8000 # localhost:8080
+end
