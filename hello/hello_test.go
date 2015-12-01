@@ -6,11 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestSomething(t *testing.T) {
-
-	a := "Hello"
-	b := "Hello"
-
-	assert.Equal(t, a, b, "The two words should be the same.")
-
+func TestHello(t *testing.T) {
+	assert.HTTPBodyContains(t, helloHandler, "GET", "/", nil, "Hello, World")
 }
